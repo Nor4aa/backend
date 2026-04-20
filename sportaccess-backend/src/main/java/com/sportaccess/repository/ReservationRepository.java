@@ -20,22 +20,32 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Optional<Reservation> findByQrToken(String qrToken);
 
+    List<Reservation> findByEstado(ReservationStatus estado);
+
     /**
-     * Comprueba si existe una reserva que solape el intervalo de tiempo solicitado
-     * para una pista concreta. Esto evita doble reserva.
+     * 1. COMPROBACIÓN DE SOLAPE (Para el POST - Guardado seguro)
+     * Verifica si una pista ya tiene reservas activas en ese rango de horas.
      */
     @Query("SELECT COUNT(r) > 0 FROM Reservation r " +
-            "WHERE r.court.id = :courtId " +
-            "AND r.estado NOT IN ('CANCELADA', 'COMPLETADA') " +
-            "AND r.fechaInicio < :fin " +
-            "AND r.fechaFin > :inicio")
+           "WHERE r.court.id = :courtId " +
+           "AND r.estado NOT IN ('CANCELADA', 'COMPLETADA') " +
+           "AND r.fechaInicio < :fin " +
+           "AND r.fechaFin > :inicio")
     boolean existeSolape(@Param("courtId") Long courtId,
-            @Param("inicio") LocalDateTime inicio,
-            @Param("fin") LocalDateTime fin);
+                         @Param("inicio") LocalDateTime inicio,
+                         @Param("fin") LocalDateTime fin);
 
-    List<Reservation> findByCourtIdAndFechaInicioBetween(Long courtId,
-            LocalDateTime desde,
-            LocalDateTime hasta);
-
-    List<Reservation> findByEstado(ReservationStatus estado);
+    /**
+     * 2. OBTENER HORARIOS ACTIVOS (Para el GET de Flutter)
+     * Devuelve las reservas que de verdad ocupan la pista en un rango de fechas.
+     */
+    @Query("SELECT r FROM Reservation r " +
+           "WHERE r.court.id = :courtId " +
+           "AND r.estado != 'CANCELADA' " + 
+           "AND r.fechaInicio < :hasta " +
+           "AND r.fechaFin > :desde")
+    List<Reservation> findReservasActivasPorPistaYRango(
+            @Param("courtId") Long courtId,
+            @Param("desde") LocalDateTime desde,
+            @Param("hasta") LocalDateTime hasta);
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "courts")
 public class Court {
@@ -29,6 +29,7 @@ public class Court {
     private String descripcion;
 
     @Column(name = "imagen_url", length = 500)
+    @JsonProperty("imagen_url")
     private String imagenUrl;
 
     @JsonIgnore

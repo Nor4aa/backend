@@ -19,22 +19,34 @@ public class Reservation {
     @JoinColumn(name = "court_id", nullable = false)
     private Court court;
 
+    @Column(nullable = false)
     private LocalDateTime fechaInicio;
+
+    @Column(nullable = false)
     private LocalDateTime fechaFin;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ReservationStatus estado = ReservationStatus.PENDIENTE;
 
-    // ESTO ES LO QUE FALTABA:
+    @Column(name = "qr_token")
     private String qrToken;
+    
+    @Column(name = "precio_material")
+    private Double precioMaterial = 0.0;
 
+    @Column(name = "detalles_material")
+    private String detallesMaterial = "";
+
+    // Estados posibles de la reserva
     public enum ReservationStatus {
-        PENDIENTE, CONFIRMADA, CANCELADA
+        PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
     }
 
+    // Constructor vacío requerido por JPA
     public Reservation() {}
 
-    // --- GETTERS Y SETTERS MANUALES ---
+    // --- GETTERS Y SETTERS ---
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -53,8 +65,11 @@ public class Reservation {
     public ReservationStatus getEstado() { return estado; }
     public void setEstado(ReservationStatus estado) { this.estado = estado; }
 
-    // GETTER Y SETTER PARA QRTOKEN
     public String getQrToken() { return qrToken; }
     public void setQrToken(String qrToken) { this.qrToken = qrToken; }
-}
+    public Double getPrecioMaterial() { return precioMaterial; }
+    public void setPrecioMaterial(Double precioMaterial) { this.precioMaterial = precioMaterial; }
 
+    public String getDetallesMaterial() { return detallesMaterial; }
+    public void setDetallesMaterial(String detallesMaterial) { this.detallesMaterial = detallesMaterial; }
+}
