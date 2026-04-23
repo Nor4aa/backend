@@ -34,7 +34,6 @@ public class DataInitializer {
             System.out.println("=== CATALOGO: INICIANDO CREACION ===");
             try {
                 reservationRepository.deleteAll();
-                userRepository.deleteAll();
                 System.out.println(">>> Base de datos reseteada.");
             } catch (Exception e) {}
 
