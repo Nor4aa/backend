@@ -21,6 +21,9 @@ public class Reservation {
 
     @Column(nullable = false)
     private LocalDateTime fechaInicio;
+    
+    @Column(name = "resultado_partido")
+    private String resultadoPartido;
 
     @Column(nullable = false)
     private LocalDateTime fechaFin;
@@ -72,4 +75,12 @@ public class Reservation {
 
     public String getDetallesMaterial() { return detallesMaterial; }
     public void setDetallesMaterial(String detallesMaterial) { this.detallesMaterial = detallesMaterial; }
+    
+    public String getResultadoPartido() {
+        return resultadoPartido;
+    }
+
+    public void setResultadoPartido(String resultadoPartido) {
+        this.resultadoPartido = resultadoPartido;
+    }
 }

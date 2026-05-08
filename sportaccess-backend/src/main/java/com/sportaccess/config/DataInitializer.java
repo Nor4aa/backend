@@ -32,10 +32,11 @@ public class DataInitializer {
         @Override
         public void run(String... args) throws Exception {
             System.out.println("=== CATALOGO: INICIANDO CREACION ===");
-            try {
+           /* try {
                 reservationRepository.deleteAll();
                 System.out.println(">>> Base de datos reseteada.");
             } catch (Exception e) {}
+            */
 
             if (courtRepository.count() == 0) {
                 seedCourts();

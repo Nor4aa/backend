@@ -108,7 +108,14 @@ public class ReservationController {
                     .body("Error interno: " + e.getMessage());
         }
     }
-
+    @PutMapping("/{id}/resultado")
+    public ResponseEntity<?> updateResultado(@PathVariable Long id, @RequestBody String resultado) {
+        return reservationRepository.findById(id).map(res -> {
+            res.setResultadoPartido(resultado);
+            reservationRepository.save(res);
+            return ResponseEntity.ok(res);
+        }).orElse(ResponseEntity.notFound().build());
+    } 
     // --- 4. CANCELAR RESERVA (Borrado Lógico) ---
     // URL ejemplo: /api/reservations/15/cancel
     @PutMapping("/{id}/cancel")
