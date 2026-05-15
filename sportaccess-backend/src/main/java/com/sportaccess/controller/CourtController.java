@@ -37,5 +37,20 @@ public class CourtController {
         Court savedCourt = courtRepository.save(court);
         return new ResponseEntity<>(savedCourt, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCourt(@PathVariable Long id) {
+        // 1. Comprobamos si la pista existe en la base de datos
+        if (!courtRepository.existsById(id)) {
+            return ResponseEntity.notFound().build(); // Devuelve un 404 si no existe
+        }
+
+        // 2. Si existe, la borramos
+        courtRepository.deleteById(id);
+
+        // 3. Devolvemos un 204 (No Content) que significa "Todo OK y ya no está"
+        return ResponseEntity.noContent().build();
+    }
+
 }
 
