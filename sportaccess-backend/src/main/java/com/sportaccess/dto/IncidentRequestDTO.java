@@ -8,5 +8,7 @@ public class IncidentRequestDTO {
     private Long reportedById;
     private Long reservationId; // Puede ser null si el usuario reporta algo sin tener reserva
     private String descripcion;
-    private String imagenUrl;
+
+    // AHORA ESPERAMOS EL TEXTO EN BASE64 DESDE FLUTTER
+    private String imagenBase64;
 }

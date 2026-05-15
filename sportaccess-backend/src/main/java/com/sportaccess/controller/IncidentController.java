@@ -57,7 +57,9 @@ public class IncidentController {
         newIncident.setDescripcion(request.getDescripcion());
         newIncident.setEstado(Incident.IncidentStatus.ABIERTA); // Por defecto
         newIncident.setFechaReporte(LocalDateTime.now());
-        newIncident.setImagenUrl(request.getImagenUrl());
+
+        // Ahora usamos Base64
+        newIncident.setImagenBase64(request.getImagenBase64());
 
         // 1.3 Si nos mandan una reserva, la añadimos
         if (request.getReservationId() != null) {

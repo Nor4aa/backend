@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+// 🔴 IMPORTANTE: Añadimos esta librería para el JSON
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
@@ -20,21 +22,25 @@ public class Incident {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // 🔴 MAGIA AQUÍ
     private Reservation reservation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "court_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // 🔴 MAGIA AQUÍ
     private Court court;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reported_by", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // 🔴 MAGIA AQUÍ
     private User reportadoPor;
 
     @Column(nullable = false, length = 500)
     private String descripcion;
 
-    // URL de la imagen en Firebase Storage
-    private String imagenUrl;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String imagenBase64;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
